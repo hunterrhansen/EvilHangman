@@ -10,9 +10,11 @@ import java.util.TreeSet;
 
 public class EvilHangmanGame implements IEvilHangmanGame {
   private Set<String> possibleWords;
+  private TreeSet<Character> guessedLetters;
 
   public EvilHangmanGame() {
     possibleWords = new TreeSet<>();
+    guessedLetters = new TreeSet<Character>();
   }
 
   @Override
@@ -41,11 +43,24 @@ public class EvilHangmanGame implements IEvilHangmanGame {
 
   @Override
   public Set<String> makeGuess(char guess) throws GuessAlreadyMadeException {
-    return null;
+    guess = Character.toLowerCase(guess);
+    if (guessedLetters.contains(guess)) {
+      throw new GuessAlreadyMadeException("Guess already made!");
+    }
+    if (!Character.isLetter(guess)) {
+      System.out.println("Invalid input!");
+    } else {
+      System.out.println("Sorry, there are no " + guess);
+      guessedLetters.add(guess);
+    }
+
+
+
+    return possibleWords;
   }
 
   @Override
   public SortedSet<Character> getGuessedLetters() {
-    return null;
+    return guessedLetters;
   }
 }

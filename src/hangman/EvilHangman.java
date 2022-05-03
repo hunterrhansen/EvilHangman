@@ -2,6 +2,7 @@ package hangman;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class EvilHangman {
 
@@ -20,6 +21,26 @@ public class EvilHangman {
             System.out.println(e.getMessage());
         }
 
+        Scanner userInput = new Scanner(System.in);
+
+        while (numGuesses > 0) {
+            System.out.println("You have " + numGuesses + " guesses left");
+            System.out.println("Used letters: " + evilHangmanGame.getGuessedLetters());
+            System.out.println("Word: " + "-----");
+
+            System.out.println("Enter guess: ");
+            char userGuess = userInput.nextLine().charAt(0);
+
+            try {
+                evilHangmanGame.makeGuess(userGuess);
+            } catch (GuessAlreadyMadeException ex) {
+                System.out.print(ex.getMessage());
+            }
+
+            numGuesses -= 1;
+        }
+
+        System.out.println("Sorry you lost! The word was: busses");
 
     }
 
