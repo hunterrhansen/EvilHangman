@@ -50,11 +50,8 @@ public class EvilHangmanGame implements IEvilHangmanGame {
     if (!Character.isLetter(guess)) {
       System.out.println("Invalid input!");
     } else {
-      System.out.println("Sorry, there are no " + guess);
       guessedLetters.add(guess);
     }
-
-
 
     return possibleWords;
   }

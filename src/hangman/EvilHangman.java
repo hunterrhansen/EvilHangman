@@ -7,13 +7,12 @@ import java.util.Scanner;
 public class EvilHangman {
 
     public static void main(String[] args) {
-        File dictionary = new File(args[0]);
-        int wordLength = Integer.parseInt(args[1]);
-        int numGuesses = Integer.parseInt(args[2]);
 
         EvilHangmanGame evilHangmanGame = new EvilHangmanGame();
 
         try {
+            File dictionary = new File(args[0]);
+            int wordLength = Integer.parseInt(args[1]);
             evilHangmanGame.startGame(dictionary, wordLength);
         } catch (IOException e) {
             e.printStackTrace();
@@ -22,26 +21,45 @@ public class EvilHangman {
         }
 
         Scanner userInput = new Scanner(System.in);
+        int numGuesses = Integer.parseInt(args[2]);
 
         while (numGuesses > 0) {
-            System.out.println("You have " + numGuesses + " guesses left");
-            System.out.println("Used letters: " + evilHangmanGame.getGuessedLetters());
-            System.out.println("Word: " + "-----");
-
-            System.out.println("Enter guess: ");
-            char userGuess = userInput.nextLine().charAt(0);
-
             try {
-                evilHangmanGame.makeGuess(userGuess);
-            } catch (GuessAlreadyMadeException ex) {
+                System.out.println("You have " + numGuesses + " guesses left");
+                System.out.println("Used letters: " + evilHangmanGame.getGuessedLetters());
+                System.out.println("Word: " + "-----");
+
+                System.out.println("Enter guess: ");
+                String userGuess = userInput.next();
+
+                if (userGuess.isBlank()) {
+                    System.out.println("You must enter a letter as a guess");
+                    continue;
+                }
+                if (!Character.isLetter(userGuess.charAt(0))) {
+                    System.out.println(userGuess.charAt(0) + " is not valid input. Please guess a letter.");
+                    continue;
+                }
+                evilHangmanGame.makeGuess(userGuess.charAt(0));
+                int letterOccurrences = 0;
+                if (letterOccurrences == 0) {
+                    System.out.println("Sorry, there are no " + userGuess.charAt(0));
+                    numGuesses -= 1;
+                } else {
+                    System.out.println("Yes, there are " + letterOccurrences + " " + userGuess.charAt(0));
+                }
+
+            } catch (GuessAlreadyMadeException | IllegalArgumentException ex) {
                 System.out.print(ex.getMessage());
             }
-
-            numGuesses -= 1;
         }
 
-        System.out.println("Sorry you lost! The word was: busses");
-
+        if ("-----".contains("-")) {
+            System.out.print("Sorry, you lost! ");
+        } else {
+            System.out.print("You win! ");
+        }
+        System.out.println("The word was: busses");
     }
 
 }
