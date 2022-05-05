@@ -11,10 +11,14 @@ import java.util.TreeSet;
 public class EvilHangmanGame implements IEvilHangmanGame {
   private Set<String> possibleWords;
   private TreeSet<Character> guessedLetters;
+  private String wordPattern;
+  private int letterOccurrences;
 
   public EvilHangmanGame() {
-    possibleWords = new TreeSet<>();
-    guessedLetters = new TreeSet<Character>();
+    possibleWords = null;
+    guessedLetters = null;
+    wordPattern = null;
+    letterOccurrences = 0;
   }
 
   @Override
@@ -23,6 +27,10 @@ public class EvilHangmanGame implements IEvilHangmanGame {
       if (!sc.hasNext()) {
         throw new EmptyDictionaryException("The provided dictionary file is empty.");
       }
+
+      possibleWords = new TreeSet<>();
+      guessedLetters = new TreeSet<>();
+      wordPattern = "-".repeat(wordLength);
 
       while (sc.hasNext()) {
         String nextWord = sc.next();
@@ -60,4 +68,12 @@ public class EvilHangmanGame implements IEvilHangmanGame {
   public SortedSet<Character> getGuessedLetters() {
     return guessedLetters;
   }
+
+  public String getWordPattern() {
+    return wordPattern;
+  }
+
+  public int getLetterOccurrences() { return letterOccurrences; }
+
+  public String getFirstWord() { return "busses"; }
 }

@@ -27,7 +27,7 @@ public class EvilHangman {
             try {
                 System.out.println("You have " + numGuesses + " guesses left");
                 System.out.println("Used letters: " + evilHangmanGame.getGuessedLetters());
-                System.out.println("Word: " + "-----");
+                System.out.println("Word: " + evilHangmanGame.getWordPattern());
 
                 System.out.println("Enter guess: ");
                 String userGuess = userInput.next();
@@ -41,7 +41,7 @@ public class EvilHangman {
                     continue;
                 }
                 evilHangmanGame.makeGuess(userGuess.charAt(0));
-                int letterOccurrences = 0;
+                int letterOccurrences = evilHangmanGame.getLetterOccurrences();
                 if (letterOccurrences == 0) {
                     System.out.println("Sorry, there are no " + userGuess.charAt(0));
                     numGuesses -= 1;
@@ -54,12 +54,12 @@ public class EvilHangman {
             }
         }
 
-        if ("-----".contains("-")) {
+        if (evilHangmanGame.getWordPattern().contains("-")) {
             System.out.print("Sorry, you lost! ");
         } else {
             System.out.print("You win! ");
         }
-        System.out.println("The word was: busses");
+        System.out.println("The word was: " + evilHangmanGame.getFirstWord());
     }
 
 }
